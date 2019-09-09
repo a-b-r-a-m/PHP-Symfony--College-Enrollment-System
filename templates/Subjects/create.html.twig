@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Unos novog predmeta {{ parent() }}
+{% endblock %}
+
+{% block pageTitle %}
+    Unos novog predmeta
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form, {'attr':{'novalidate':'novalidate'}}) }}
+    {{ form_widget(form) }}
+    <input type="submit" value="Dodaj predmet" />   {#i ovo mos poslat u form->new, ali ovako bolje?#}
+    {{ form_end(form) }}
+{% endblock %}

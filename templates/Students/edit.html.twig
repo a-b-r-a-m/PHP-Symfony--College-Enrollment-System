@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Uređivanje studenta {{ parent() }}
+{% endblock %}
+
+{% block pageTitle %}
+    Uređivanje studenta
+{% endblock %}
+
+{% block pageSubtitle %}
+    {{ student.email }}
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form, {'attr':{'novalidate':'novalidate'}}) }}
+    {{ form_widget(form) }}
+    <input type="submit" value="Ažuriraj studenta" />
+    {{ form_end(form) }}
+{% endblock %}

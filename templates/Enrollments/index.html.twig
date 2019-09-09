@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Upravljanje upisnim listom za: {{ student.email }} {{ parent() }}
+{% endblock %}
+
+{% block pageTitle %}
+    {{ student.email }}
+{% endblock %}
+
+{% block pageSubtitle %}
+    Upravljanje upisnim listom
+    {#{{  dump(assignedSubjects) }}#}
+     {#{{  dump(unassignedSubjects) }}#}
+{% endblock %}
+
+{% block body %}
+    {#{% if(student.status == 'redovan') %}#}
+        {#{% for subject in unassignedSubjects %}#}
+            {#{{ subject.getSemRedovni() }}#}
+        {#{% endfor %}#}
+    {#{% endif %}#}
+
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                Neupisani predmeti
+                <thead>
+                <tr>
+                    <th scope="col">Kod</th>
+                    <th scope="col">Naziv</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for subject in unassignedSubjects %}
+                    <tr>
+                        <th scope="row">{{ subject.kod }}</th>
+                        <td>{{ subject.ime }}</td>
+                        <td>
+                            <a href="{{ path('enrollments.assign', {studentId: student.id, subjectId: subject.id}) }}" class="btn btn-outline-success btn-sm">Upiši</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col">
+            <table class="table">
+                Upisani predmeti
+                <thead>
+                <tr>
+                    <th scope="col">Kod</th>
+                    <th scope="col">Naziv</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for subject in assignedSubjects %}
+                    <tr>
+                        <th scope="row">{{ subject.kod }}</th>
+                        <td>{{ subject.ime }}</td>
+                        <td>
+                            <a href="{{ path('enrollments.remove', {studentId: student.id, subjectId: subject.id}) }}" class="btn btn-outline-danger btn-sm">Ispiši</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

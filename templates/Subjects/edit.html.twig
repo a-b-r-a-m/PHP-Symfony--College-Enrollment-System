@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Uređivanje predmeta {{ parent() }}
+{% endblock %}
+
+{% block pageTitle %}
+    Uređivanje predmeta
+{% endblock %}
+
+{% block pageSubtitle %}
+    {{ subject.ime }}
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form, {'attr':{'novalidate':'novalidate'}}) }}
+    {{ form_widget(form) }}
+    <input type="submit" value="Ažuriraj predmet" />
+    {{ form_end(form) }}
+{% endblock %}

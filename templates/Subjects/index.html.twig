@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Predmeti {{ parent() }}
+{% endblock %}
+
+{% block pageTitle %}
+    Popis predmeta
+{% endblock %}
+
+{% block body %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Kod</th>
+            <th scope="col">Ime</th>
+            {#<th scope="col">Program</th>#}
+            <th scope="col">Bodovi</th>
+            <th scope="col">Semestar Redovni</th>
+            <th scope="col">Semestar Izvanredni</th>
+            <th scope="col">Izborni</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for subject in subjects %}
+            <tr>
+                <th scope="row">{{ subject.kod }}</th>
+                <td>{{ subject.ime }}</td>
+                {#<td>{{ subject.program }}</td>#}
+                <td>{{ subject.bodovi }}</td>
+                <td>{{ subject.semRedovni }}</td>
+                <td>{{ subject.semIzvanredni }}</td>
+                <td>{{ (subject.izborni == 1) ? "da" : "ne" }}</td> {#u bazi idalje 1 ili prazno#}
+                <td>
+                    <a href="{{ path('subjects.edit', {id: subject.id}) }}" class="btn btn-outline-primary btn-sm">Uredi</a>
+                    <a href="{{ path('subjects.delete', {id: subject.id}) }}" class="btn btn-outline-danger btn-sm">Ukloni</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

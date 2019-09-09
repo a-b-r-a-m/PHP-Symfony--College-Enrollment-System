@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Studenti {{ parent() }}
+{% endblock %}
+
+{% block pageTitle %}
+    Popis studenata
+{% endblock %}
+
+{% block body %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Email</th>
+            <th scope="col">Status</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for student in students %}
+            <tr>
+                <th scope="row">{{ student.id }}</th>
+                <td>{{ student.email }}</td>
+                <td>{{ student.status }}</td>
+                <td>                                        {#da uopce nema stud. edit/del?#}
+                    <a href="{{ path('students.edit', {id: student.id}) }}" class="btn btn-outline-primary btn-sm">Uredi</a>
+                    <a href="{{ path('enrollments.index', {studentId: student.id}) }}" class="btn btn-outline-warning btn-sm">Predmeti</a>
+                    <a href="{{ path('students.delete', {id: student.id}) }}" class="btn btn-outline-danger btn-sm">Ukloni</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
