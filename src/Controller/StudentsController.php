@@ -49,7 +49,7 @@ class StudentsController extends AbstractController
 
             $this->addFlash('success', 'Student successfully created!');
 
-            return $this->redirectToRoute("students.index");
+            return $this->redirectToRoute("default.index");
         }
 
         return $this->render("students/create.html.twig", [
@@ -59,7 +59,7 @@ class StudentsController extends AbstractController
 
     /**
      * @Route("/edit/{id}/", name="students.edit")
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_SUPER_ADMIN")
      */
     public function edit(Request $request, $id)   //sad kad iman sensio, mogu samo stavit Student $student u argument i on ce sam povuc po id-u
     {
@@ -92,7 +92,7 @@ class StudentsController extends AbstractController
 
     /**
      * @Route("/delete/{id}/", name="students.delete")
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_SUPER_ADMIN")
      */
     public function delete($id)
     {

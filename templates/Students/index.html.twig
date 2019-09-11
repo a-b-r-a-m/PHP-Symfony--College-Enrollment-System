@@ -12,7 +12,9 @@
     <table class="table">
         <thead>
         <tr>
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
             <th scope="col">#</th>
+            {% endif %}
             <th scope="col">Email</th>
             <th scope="col">Status</th>
             <th scope="col"></th>
@@ -21,13 +23,17 @@
         <tbody>
         {% for student in students %}
             <tr>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <th scope="row">{{ student.id }}</th>
+                {% endif %}
                 <td>{{ student.email }}</td>
                 <td>{{ student.status }}</td>
-                <td>                                        {#da uopce nema stud. edit/del?#}
-                    <a href="{{ path('students.edit', {id: student.id}) }}" class="btn btn-outline-primary btn-sm">Uredi</a>
-                    <a href="{{ path('enrollments.index', {studentId: student.id}) }}" class="btn btn-outline-warning btn-sm">Predmeti</a>
-                    <a href="{{ path('students.delete', {id: student.id}) }}" class="btn btn-outline-danger btn-sm">Ukloni</a>
+                <td>
+                    <a href="{{ path('enrollments.index', {studentId: student.id}) }}" class="btn btn-outline-info btn-sm">Predmeti</a>
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        <a href="{{ path('students.edit', {id: student.id}) }}" class="btn btn-outline-primary btn-sm">Uredi</a>
+                        <a href="{{ path('students.delete', {id: student.id}) }}" class="btn btn-outline-danger btn-sm">Ukloni</a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

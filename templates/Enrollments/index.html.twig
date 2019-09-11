@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
+    {% if student.email != app.user.email %}
+        GTFO    {#iskoristit da USER moze SAMO SVOJ upisni list, prominit na == #}
+    {% endif %}
     Upravljanje upisnim listom za: {{ student.email }} {{ parent() }}
 {% endblock %}
 

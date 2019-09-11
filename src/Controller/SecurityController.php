@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use phpDocumentor\Reflection\Types\This;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +21,10 @@ class SecurityController extends AbstractController //ili /prijava
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        if($lastUsername)
+            return $this->redirectToRoute('app_logout');
+
+        return $this->render('security/login.html.twig', [/*'last_username' => $lastUsername,*/ 'error' => $error]);
     }
 
     /**
