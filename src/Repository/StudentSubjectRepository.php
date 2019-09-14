@@ -37,25 +37,14 @@ class StudentSubjectRepository extends ServiceEntityRepository
     }
     */
 
-    public function findSubjectsAssignedToStudent($student) //mozda poredat po imenu jos, i ovo gori @return?
+    public function findSubjectsAssignedToStudent($student)
     {
         return $this->createQueryBuilder('s')
             ->andWhere('s.student = :student')
             ->setParameter('student', $student)
-            ->orderBy('s.subject', 'ASC')
             ->getQuery()
             ->getResult();
     }
-
-    /*public function findSubjectAssignedToStudent($student, $subject) //mozda poredat po imenu jos, i ovo gori @return?
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.student = :student, s.subject = :subject')
-            ->setParameter($student,  $subject)
-            ->orderBy('s.subject', 'ASC')
-            ->getQuery()
-            ->getResult();
-    }*/
 
     /*
     public function findOneBySomeField($value): ?StudentSubject

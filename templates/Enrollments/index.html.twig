@@ -3,6 +3,7 @@
 {% block title %}
     {% if student.email != app.user.email %}
         GTFO    {#iskoristit da USER moze SAMO SVOJ upisni list, prominit na == #}
+        {#{% do redirect('default.index') %}#}
     {% endif %}
     Upravljanje upisnim listom za: {{ student.email }} {{ parent() }}
 {% endblock %}
@@ -13,30 +14,46 @@
 
 {% block pageSubtitle %}
     Upravljanje upisnim listom
-    {#{{  dump(assignedSubjects) }}#}
-     {#{{  dump(unassignedSubjects) }}#}
+    {#{{  dump(assignedSubjects) }}
+     {{  dump(unassignedSubjects) }}#}
 {% endblock %}
 
 {% block body %}
-    {#{% if(student.status == 'redovan') %}#}
-        {#{% for subject in unassignedSubjects %}#}
-            {#{{ subject.getSemRedovni() }}#}
-        {#{% endfor %}#}
-    {#{% endif %}#}
-
     <div class="row">
         <div class="col">
+            <h2>Neupisani predmeti</h2><br>
             <table class="table">
-                Neupisani predmeti
-                <thead>
-                <tr>
-                    <th scope="col">Kod</th>
-                    <th scope="col">Naziv</th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
-                <tbody>
+                {% set sem = 0 %}
                 {% for subject in unassignedSubjects %}
+
+                    {% if(student.status == 'redovan') %}
+                        {% set newSem = subject.getSemRedovni() %}
+                    {% else %}
+                        {% set newSem = subject.getSemIzvanredni() %}
+                    {% endif %}
+                    {% if sem != newSem %}
+                        {% set sem = newSem %}
+                            <thead>
+                            <tr>
+                                <th colspan="3" bgcolor="#00bfff"><h5>Semestar {{ sem }}:</h5></th>
+                            </tr>
+                            <tr>
+                                <th scope="col">Kod</th>
+                                <th scope="col">Naziv</th>
+                                <th scope="col"></th>
+                            </tr>
+                            </thead>
+                    {% endif %}
+                <tbody>
+                <tr>
+                    <th scope="row">{{ subject.kod }}</th>
+                    <td>{{ subject.getIme() }}</td>
+                    <td>
+                        <a href="{{ path('enrollments.assign', {studentId: student.id, subjectId: subject.id}) }}" class="btn btn-outline-success btn-sm">Upiši</a>
+                    </td>
+                </tr>
+                    {% endfor %}
+                {#{% for subject in unassignedSubjects %}
                     <tr>
                         <th scope="row">{{ subject.kod }}</th>
                         <td>{{ subject.ime }}</td>
@@ -44,11 +61,11 @@
                             <a href="{{ path('enrollments.assign', {studentId: student.id, subjectId: subject.id}) }}" class="btn btn-outline-success btn-sm">Upiši</a>
                         </td>
                     </tr>
-                {% endfor %}
+                {% endfor %}#}
                 </tbody>
             </table>
         </div>
-        <div class="col">
+        {#<div class="col">
             <table class="table">
                 Upisani predmeti
                 <thead>
@@ -67,6 +84,42 @@
                             <a href="{{ path('enrollments.remove', {studentId: student.id, subjectId: subject.id}) }}" class="btn btn-outline-danger btn-sm">Ispiši</a>
                         </td>
                     </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>#}
+        <div class="col">
+            <h2>Upisani predmeti</h2><br>
+            <table class="table">
+                {% set sem = 0 %}
+                {% for subject in assignedSubjects %}
+
+                {% if(student.status == 'redovan') %}
+                    {% set newSem = subject.getSemRedovni() %}
+                {% else %}
+                    {% set newSem = subject.getSemIzvanredni() %}
+                {% endif %}
+                {% if sem != newSem %}
+                    {% set sem = newSem %}
+                    <thead>
+                    <tr>
+                        <th colspan="3" bgcolor="#00bfff"><h5>Semestar {{ sem }}:</h5></th>
+                    </tr>
+                    <tr>
+                        <th scope="col">Kod</th>
+                        <th scope="col">Naziv</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                {% endif %}
+                <tbody>
+                <tr>
+                    <th scope="row">{{ subject.kod }}</th>
+                    <td>{{ subject.getIme() }}</td>
+                    <td>
+                        <a href="{{ path('enrollments.remove', {studentId: student.id, subjectId: subject.id}) }}" class="btn btn-outline-danger btn-sm">Ispiši</a>
+                    </td>
+                </tr>
                 {% endfor %}
                 </tbody>
             </table>

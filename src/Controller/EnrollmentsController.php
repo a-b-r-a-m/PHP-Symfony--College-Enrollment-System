@@ -19,6 +19,8 @@ class EnrollmentsController extends AbstractController
      */
     public function index($studentId)
     {
+        //napravit vamo kontrolu jel isti id usera i studenta kojen se list minja, ako je ROLE_USER
+        // i za assign i delete isto
         $doctrine = $this->getDoctrine();
         $repository = $doctrine->getRepository(StudentSubject::class);
         $student = $doctrine->getRepository(Student::class)->find($studentId);
@@ -26,16 +28,14 @@ class EnrollmentsController extends AbstractController
         //$assignedSubjects = $student->getStudentSubjects();   //ne moze
         $assignedSubjects = $repository->findSubjectsAssignedToStudent($student);
 
-        $allSubjects = $doctrine->getRepository(Subject::class)->findAll();
-        $unassignedSubjects = array_diff($allSubjects, $assignedSubjects);
-        
-        $assignedSubjects = array_diff($allSubjects, $unassignedSubjects);
+        if($student->getStatus() == 'redovan')
+            $allSubjects = $doctrine->getRepository(Subject::class)->findAllBySemRedovni();
+        else
+            $allSubjects = $doctrine->getRepository(Subject::class)->findAllBySemIzvanredni();
 
-        //$arrOfArrs[][] = new Array_();
-//        $arr;
-//        foreach ($unassignedSubjects as $k => $v) {
-//            $arr[] = $v->getBodovi() =>;
-//        }
+        $unassignedSubjects = array_diff($allSubjects, $assignedSubjects);
+
+        $assignedSubjects = array_diff($allSubjects, $unassignedSubjects);
 
         return $this->render("enrollments/index.html.twig", [
             "student" => [

@@ -19,12 +19,13 @@ class SubjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Subject::class);
     }
 
-    /*public function orderBySemRedovni() {
+
+    public function findAllBySemIzvanredni() {
+        return $this->findBy(array(), array('sem_izvanredni' => 'ASC'));
+    }
+    public function findAllBySemRedovni() {
         return $this->findBy(array(), array('sem_redovni' => 'ASC'));
     }
-    public function orderBySemIzvanredni() {
-        return $this->findBy(array(), array('sem_izvanredni' => 'ASC'));
-    }*/
 
     // /**
     //  * @return Subject[] Returns an array of Subject objects
