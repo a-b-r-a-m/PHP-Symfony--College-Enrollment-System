@@ -41,7 +41,8 @@ security:
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: ROLE_USER }
+        - { path: ^/enrollments, roles: ROLE_USER }
+#        - { path: ^/$, roles: ROLE_ADMIN }
         - { path: ^/students, roles: ROLE_ADMIN }
         - { path: ^/subjects, roles: ROLE_ADMIN }
         - { path: ^/subjects/edit, roles: ROLE_ADMIN }

@@ -46,15 +46,17 @@ class StudentSubjectRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    /*
-    public function findOneBySomeField($value): ?StudentSubject
+
+    public function findOneById($student, $subject): ?StudentSubject
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
+        return $this->createQueryBuilder('ss')
+            ->andWhere('ss.student = :student')
+            ->setParameter('student', $student)
+            ->andWhere('ss.subject = :subject')
+            ->setParameter('subject', $subject)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
+
 }

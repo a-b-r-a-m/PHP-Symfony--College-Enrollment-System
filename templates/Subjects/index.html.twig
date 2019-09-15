@@ -30,10 +30,12 @@
                 <td>{{ subject.bodovi }}</td>
                 <td>{{ subject.semRedovni }}</td>
                 <td>{{ subject.semIzvanredni }}</td>
-                <td>{{ (subject.izborni == 1) ? "da" : "ne" }}</td> {#u bazi idalje 1 ili prazno#}
+                <td>{{ (subject.izborni == 1) ? "da" : "ne" }}</td>
                 <td>
                     <a href="{{ path('subjects.edit', {id: subject.id}) }}" class="btn btn-outline-primary btn-sm">Uredi</a>
-                    <a href="{{ path('subjects.delete', {id: subject.id}) }}" class="btn btn-outline-danger btn-sm">Ukloni</a>
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        <a href="{{ path('subjects.delete', {id: subject.id}) }}" class="btn btn-outline-danger btn-sm">Ukloni</a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

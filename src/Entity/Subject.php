@@ -170,7 +170,7 @@ class Subject
         return $this->izborni;
     }
 
-    public function setIzborni(bool $izborni): self //isto bool umisto string ko i gori
+    public function setIzborni(bool $izborni): self
     {
         $this->izborni = $izborni;
 

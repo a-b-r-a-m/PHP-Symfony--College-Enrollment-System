@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Student;
 use App\Form\RegistrationFormType;
 use App\Security\LoginFormAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,27 +25,32 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-            $user->setRoles(array("ROLE_USER"));
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            // do anything else you need here, like send an email
-
-            return $guardHandler->authenticateUserAndHandleSuccess(
+            $student = $this->getDoctrine()->getRepository(Student::class)->findOneByEmail($user->getEmail());
+            if(!$student) {
+                $this->addFlash('warning', 'Korisnik s unesenim e-mailom nije evidentiran. Provjerite unos ili se obratite studentskoj referadi.');
+                return $this->redirectToRoute('app_register');
+            }
+        // encode the plain password
+        $user->setPassword(
+            $passwordEncoder->encodePassword(
                 $user,
-                $request,
-                $authenticator,
-                'main' // firewall name in security.yaml
-            );
+                $form->get('plainPassword')->getData()
+            )
+        );
+        $user->setRoles(array("ROLE_USER"));
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        // do anything else you need here, like send an email
+
+        return $guardHandler->authenticateUserAndHandleSuccess(
+            $user,
+            $request,
+            $authenticator,
+            'main' // firewall name in security.yaml
+        );
         }
 
         return $this->render('registration/register.html.twig', [

@@ -25,7 +25,7 @@ class Student
      * @Assert\Regex(
      *     pattern="/(@oss.unist.hr)$/",
      *     message="E-mail mora biti u formatu 'primjer@oss.unist.hr'")
-     * @ORM\Column(type="string", length=64, unique=true)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
 
@@ -33,7 +33,7 @@ class Student
      * @Assert\NotBlank(message="Lozinka je obavezna.")
      * @ORM\Column(type="string", length=255)
      */
-    private $password;  //tribace password_hash()
+    private $password;
 
     /**
      * @Assert\NotBlank(message="Je li osoba mentor ili student?")
@@ -48,7 +48,7 @@ class Student
      *     message="Ako je osoba student, treba biti 'redovan ili 'izvanredan', ako je mentor ostaviti prazno.")
      * @ORM\Column(type="string", length=10)
      */
-    private $status;    //nekako assertat samo ako je student
+    private $status;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\StudentSubject", mappedBy="student", orphanRemoval=true)
@@ -89,7 +89,7 @@ class Student
 
     public function setPassword(string $password): self
     {
-        $this->password = $password;
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
 
         return $this;
     }

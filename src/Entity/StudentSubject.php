@@ -10,13 +10,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class StudentSubject
 {
-//    /**
-//     * @ORM\Id()
-//     * @ORM\GeneratedValue()
-//     * @ORM\Column(type="integer")
-//     */
-//    private $id;
-
     /**
      * @ORM\Id()
      * @ORM\ManyToOne(targetEntity="App\Entity\Student", inversedBy="studentSubjects")
@@ -35,13 +28,7 @@ class StudentSubject
      * @Assert\Choice({"enrolled", "passed"})
      * @ORM\Column(type="string", length=8)
      */
-    private $status;    //stavit radio botun za mentore, a dodat i not enrolled?
-                                                        //u tom slucaju u bazi sve, umisto brisat stavit not enr
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    private $status;
 
     public function getStudent(): ?Student
     {

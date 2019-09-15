@@ -21,11 +21,9 @@ class UserFixtures extends Fixture
         // ADMIN ACCOUNT
         $user = new User();
 
-        $user->setEmail("admin@localhost.com");
-        //$user->setFirstName("Admin");
-        //$user->setLastName("Account");
+        $user->setEmail("mentor@oss.unist.hr");
         $user->setPassword(
-            $this->passwordEncoder->encodePassword($user, "adminpassword")
+            $this->passwordEncoder->encodePassword($user, "123456")
         );
         $user->setRoles(array("ROLE_ADMIN"));
 
@@ -34,16 +32,26 @@ class UserFixtures extends Fixture
         // USER ACCOUNT
         $user = new User();
 
-        $user->setEmail("user@localhost.com");
-        //$user->setFirstName("User");
-        //$user->setLastName("Account");
+        $user->setEmail("student@oss.unist.hr");
         $user->setPassword(
-            $this->passwordEncoder->encodePassword($user, "userpassword")
+            $this->passwordEncoder->encodePassword($user, "123456")
         );
         $user->setRoles(array("ROLE_USER"));
 
         $manager->persist($user);
 
+        $manager->flush();
+
+        //SUPERADMIN ACCOUNT
+        $user = new User();
+
+        $user->setEmail("referada@oss.unist.hr");
+        $user->setPassword(
+            $this->passwordEncoder->encodePassword($user, "123456")
+        );
+        $user->setRoles(array("ROLE_SUPER_ADMIN"));
+
+        $manager->persist($user);
         $manager->flush();
     }
 }

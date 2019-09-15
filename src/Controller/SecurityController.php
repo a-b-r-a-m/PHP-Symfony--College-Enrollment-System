@@ -21,10 +21,10 @@ class SecurityController extends AbstractController //ili /prijava
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        if($lastUsername)
-            return $this->redirectToRoute('app_logout');
+        /*if($lastUsername)
+            return $this->redirectToRoute('app_logout');*/
 
-        return $this->render('security/login.html.twig', [/*'last_username' => $lastUsername,*/ 'error' => $error]);
+        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
     /**
